@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecondCardGameCourse", "Assembly-CSharp.csproj", "{22F874F6-E5F4-806D-6C19-0F40617D913D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecondCardGameCourse", "Assembly-CSharp-Editor.csproj", "{53681698-BFF1-62F8-DF82-E5A8EFC601A4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{22F874F6-E5F4-806D-6C19-0F40617D913D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22F874F6-E5F4-806D-6C19-0F40617D913D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22F874F6-E5F4-806D-6C19-0F40617D913D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22F874F6-E5F4-806D-6C19-0F40617D913D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53681698-BFF1-62F8-DF82-E5A8EFC601A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53681698-BFF1-62F8-DF82-E5A8EFC601A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53681698-BFF1-62F8-DF82-E5A8EFC601A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53681698-BFF1-62F8-DF82-E5A8EFC601A4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
