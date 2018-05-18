@@ -15,7 +15,7 @@ public class OneCardManager : MonoBehaviour {
     public Text AttackText;
     [Header("Image References")]
     public Image CardTopRibbonImage;
-   // public Image CardLowRibbonImage;
+    public Image CardLowRibbonImage;
     public Image CardGraphicImage;
     public Image CardBodyImage;
     public Image CardFaceFrameImage;
@@ -54,7 +54,7 @@ public class OneCardManager : MonoBehaviour {
             CardBodyImage.color = cardAsset.CharacterAsset.ClassCardTint;
             CardFaceFrameImage.color = cardAsset.CharacterAsset.ClassCardTint;
             CardTopRibbonImage.color = cardAsset.CharacterAsset.ClassRibbonsTint;
-           // CardLowRibbonImage.color = cardAsset.CharacterAsset.ClassRibbonsTint;
+            CardLowRibbonImage.color = cardAsset.CharacterAsset.ClassRibbonsTint;
         }
         else
         {
