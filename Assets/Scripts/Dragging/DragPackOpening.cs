@@ -1,25 +1,23 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using DG.Tweening;
 
 public class DragPackOpening : DraggingActions 
 {   
-    private bool canceling = false;
-    private bool movingToOrReachedOpeningSpot = false;
-    private Vector3 savedPosition;
+    private bool _canceling;
+    private bool _movingToOrReachedOpeningSpot = false;
+    private Vector3 _savedPosition;
 
     public override bool CanDrag
     {
         get
         { 
-            return ShopManager.Instance.OpeningArea.AllowedToDragAPack && !canceling && !movingToOrReachedOpeningSpot;
+            return ShopManager.Instance.OpeningArea.AllowedToDragAPack && !_canceling && !_movingToOrReachedOpeningSpot;
         }
     }
         
     public override void OnStartDrag()
     {
-        savedPosition = transform.localPosition;
+        _savedPosition = transform.localPosition;
         ShopManager.Instance.OpeningArea.AllowedToDragAPack = false;
     }
 
@@ -29,14 +27,11 @@ public class DragPackOpening : DraggingActions
     }
 
     public override void OnEndDrag()
-    {        
-        // 1) Check if we are holding a card over the table
+    {   
         if (DragSuccessful())
         {
-            // snap the pack to the center of the pack opening area
             transform.DOMove(ShopManager.Instance.OpeningArea.transform.position, 0.5f).OnComplete(()=>
                 { 
-                    // enable opening on click
                     GetComponent<ScriptToOpenOnePack>().AllowToOpenThisPack();
                 });
         }
@@ -46,10 +41,10 @@ public class DragPackOpening : DraggingActions
 
     public override void OnCancelDrag()
     {
-        canceling = true;
-        transform.DOLocalMove(savedPosition, 1f).OnComplete(() =>
+        _canceling = true;
+        transform.DOLocalMove(_savedPosition, 1f).OnComplete(() =>
             {
-                canceling = false;
+                _canceling = false;
                 ShopManager.Instance.OpeningArea.AllowedToDragAPack = true;
             });
     } 

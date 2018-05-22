@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 
@@ -28,22 +27,13 @@ public class DealDamageCommand : Command {
 
     public override void StartCommandExecution()
     {
-        Debug.Log("In deal damage command!");
-
-        GameObject target;
         foreach(DamageCommandInfo info in Targets)
         {
-            target = IDHolder.GetGameObjectWithID(info.targetID);
+            var target = IDHolder.GetGameObjectWithID(info.targetID);
             if (GlobalSettings.Instance.IsPlayer(info.targetID))
-            {
-                // target is a hero
                 target.GetComponent<PlayerPortraitVisual>().TakeDamage(info.amount, info.healthAfter);
-            }
             else
-            {
-                // target is a creature
                 target.GetComponent<OneCreatureManager>().TakeDamage(info.amount, info.healthAfter);
-            }   
         }
         Sequence s = DOTween.Sequence();
         s.PrependInterval(1f);

@@ -3,25 +3,14 @@ using System.Collections;
 using UnityEngine.UI;
 using DG.Tweening;
 
-// this class will take care of switching turns and counting down time until the turn expires
 public class TurnManager : MonoBehaviour {
 
-    // PUBLIC FIELDS
     public CardAsset CoinCard;
-
-    // for Singleton Pattern
     public static TurnManager Instance;
-
-
-    // a static array that will store both players, should always have 2 players
     public static Player[] Players;
+    
+    private RopeTimer _timer;
 
-    // PRIVATE FIELDS
-    // reference to a timer to measure 
-    private RopeTimer timer;
-
-
-    // PROPERTIES
     private Player _whoseTurn;
     public Player whoseTurn
     {
@@ -33,30 +22,24 @@ public class TurnManager : MonoBehaviour {
         set
         {
             _whoseTurn = value;
-            timer.StartTimer();
+            _timer.StartTimer();
 
             GlobalSettings.Instance.EnableEndTurnButtonOnStart(_whoseTurn);
 
             TurnMaker tm = whoseTurn.GetComponent<TurnMaker>();
-            // player`s method OnTurnStart() will be called in tm.OnTurnStart();
             tm.OnTurnStart();
             if (tm is PlayerTurnMaker)
-            {
                 whoseTurn.HighlightPlayableCards();
-            }
-            // remove highlights for opponent.
             whoseTurn.otherPlayer.HighlightPlayableCards(true);
                 
         }
     }
 
-
-    // METHODS
     void Awake()
     {
         Players = GameObject.FindObjectsOfType<Player>();
         Instance = this;
-        timer = GetComponent<RopeTimer>();
+        _timer = GetComponent<RopeTimer>();
     }
 
     void Start()
@@ -66,8 +49,6 @@ public class TurnManager : MonoBehaviour {
 
     public void OnGameStart()
     {
-        //Debug.Log("In TurnManager.OnGameStart()");
-
         CardLogic.CardsCreatedThisGame.Clear();
         CreatureLogic.CreaturesCreatedThisGame.Clear();
 
@@ -78,7 +59,6 @@ public class TurnManager : MonoBehaviour {
             p.LoadCharacterInfoFromAsset();
             p.TransmitInfoAboutPlayerToVisual();
             p.PArea.PDeck.CardsInDeck = p.deck.cards.Count;
-            // move both portraits to the center
             p.PArea.Portrait.transform.position = p.PArea.InitialPortraitPosition.position;
         }
 
@@ -87,30 +67,22 @@ public class TurnManager : MonoBehaviour {
         s.Insert(0f, Players[1].PArea.Portrait.transform.DOMove(Players[1].PArea.PortraitPosition.position, 1f).SetEase(Ease.InQuad));
         s.PrependInterval(3f);
         s.OnComplete(() =>
+        {
+            int rnd = Random.Range(0, 2);
+            Player whoGoesFirst = Players[rnd];
+            Player whoGoesSecond = whoGoesFirst.otherPlayer;
+            int initDraw = 4;
+
+            for (int i = 0; i < initDraw; i++)
             {
-                // determine who starts the game.
-                int rnd = Random.Range(0,2);  // 2 is exclusive boundary
-                // Debug.Log(Player.Players.Length);
-                Player whoGoesFirst = Players[rnd];
-                // Debug.Log(whoGoesFirst);
-                Player whoGoesSecond = whoGoesFirst.otherPlayer;
-                // Debug.Log(whoGoesSecond);
-         
-                // draw 4 cards for first player and 5 for second player
-                int initDraw = 4;
-                for (int i = 0; i < initDraw; i++)
-                {            
-                    // second player draws a card
-                    whoGoesSecond.DrawACard(true);
-                    // first player draws a card
-                    whoGoesFirst.DrawACard(true);
-                }
-                // add one more card to second player`s hand
                 whoGoesSecond.DrawACard(true);
-                //new GivePlayerACoinCommand(null, whoGoesSecond).AddToQueue();
-                whoGoesSecond.GetACardNotFromDeck(CoinCard);
-                new StartATurnCommand(whoGoesFirst).AddToQueue();
-            });
+                whoGoesFirst.DrawACard(true);
+            }
+
+            whoGoesSecond.DrawACard(true);
+            whoGoesSecond.GetACardNotFromDeck(CoinCard);
+            new StartATurnCommand(whoGoesFirst).AddToQueue();
+        });
     }
 
     void Update()
@@ -119,21 +91,12 @@ public class TurnManager : MonoBehaviour {
             EndTurn();
     }
 
-    // FOR TEST PURPOSES ONLY
-    public void EndTurnTest()
-    {
-        timer.StopTimer();
-        timer.StartTimer();
-    }
-
     public void EndTurn()
     {
         Draggable[] AllDraggableObjects = GameObject.FindObjectsOfType<Draggable>();
         foreach (Draggable d in AllDraggableObjects)
             d.CancelDrag();
-        // stop timer
-        timer.StopTimer();
-        // send all commands in the end of current player`s turn
+        _timer.StopTimer();
         whoseTurn.OnTurnEnd();
 
         new StartATurnCommand(whoseTurn.otherPlayer).AddToQueue();
@@ -141,8 +104,7 @@ public class TurnManager : MonoBehaviour {
 
     public void StopTheTimer()
     {
-        timer.StopTimer();
+        _timer.StopTimer();
     }
-
 }
 

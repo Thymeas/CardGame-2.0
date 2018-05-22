@@ -1,27 +1,20 @@
-﻿using UnityEngine;
-using System.Collections;
-using System;
-using DG.Tweening;
+﻿using DG.Tweening;
 
 public class ShowMessageCommand : Command {
-
-    string message;
-    float duration;
+    private string _message;
+    private float _duration;
 
     public ShowMessageCommand(string message, float duration)
     {
-        this.message = message;
-        this.duration = duration;
+        this._message = message;
+        this._duration = duration;
     }
 
     public override void StartCommandExecution()
     {
-        MessageManager.Instance.ShowMessage(message, duration);
+        MessageManager.Instance.ShowMessage(_message, _duration);
         Sequence s = DOTween.Sequence();
-        s.AppendInterval(duration);
-        s.OnComplete(() =>
-            {
-                Command.CommandExecutionComplete();
-            });
+        s.AppendInterval(_duration);
+        s.OnComplete(Command.CommandExecutionComplete);
     }
 }

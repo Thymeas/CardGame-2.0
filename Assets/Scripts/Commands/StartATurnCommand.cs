@@ -1,19 +1,15 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿public class StartATurnCommand : Command {
 
-public class StartATurnCommand : Command {
-
-    private Player p;
+    private Player _p;
 
     public StartATurnCommand(Player p)
     {
-        this.p = p;
+        this._p = p;
     }
 
     public override void StartCommandExecution()
     {
-        TurnManager.Instance.whoseTurn = p;
-        // this command is completed instantly
+        TurnManager.Instance.whoseTurn = _p;
         Command.CommandExecutionComplete();
     }
 }

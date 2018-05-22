@@ -19,15 +19,13 @@ public class DeckSelectionScreen : MonoBehaviour {
 
     public void ShowDecks()
     {
-        // If there are no decks at all, show the character selection screen
         if (DecksStorage.Instance.AllDecks.Count == 0)
         {            
             HideScreen();
             CharacterSelectionScreen.Instance.ShowScreen();
             return;
         }
-
-        // disable all deck icons first
+        
         foreach (DeckIcon icon in DeckIcons)
         {
             icon.gameObject.SetActive(false);

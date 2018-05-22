@@ -1,55 +1,38 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 [System.Serializable]
 public class CreatureLogic: ICharacter 
 {
-    // PUBLIC FIELDS
-    // Player that this creature belongs to
     public Player owner;
-
-    // A CardAsset that holds the info about this creature
     public CardAsset ca;
-
-    // Reference to CreatureEffect script that causes unique effect for this creature
     public CreatureEffect effect;
-
-    // an ID of this creature in Logic (is similar to an ID of Game Object that represents this creature in Visual)
     public int UniqueCreatureID;
-
-    // A flag that marks this creature as frosen
     public bool Frozen = false;
-
-    // PROPERTIES
-    // property from ICharacter interface
+    
     public int ID
     {
         get{ return UniqueCreatureID; }
     }
         
-    // the basic health that we have in CardAsset
-    private int baseHealth;
-    // health with all the current buffs taken into account
+    private int _baseHealth;
     public int MaxHealth
     {
-        get{ return baseHealth;}
+        get{ return _baseHealth;}
     }
-
-    // current health of this creature
-    private int health;
+    
+    private int _health;
     public int Health
     {
-        get{ return health; }
+        get{ return _health; }
 
         set
         {
             if (value > MaxHealth)
-                health = MaxHealth;
+                _health = MaxHealth;
             else if (value <= 0)
                 Die();
             else
-                health = value;
+                _health = value;
         }
     }
 
@@ -58,9 +41,7 @@ public class CreatureLogic: ICharacter
         get;
         set;
     }
-
-
-    // returns true if we can attack with this creature now
+    
     public bool CanAttack
     {
         get
@@ -69,55 +50,51 @@ public class CreatureLogic: ICharacter
             return (ownersTurn && (AttacksLeftThisTurn > 0) && !Frozen);
         }
     }
-
-    // property for Attack
-    private int baseAttack;
+    
+    private int _baseAttack;
     public int Attack
     {
-        get{ return baseAttack; }
+        get{ return _baseAttack; }
     }
      
-    // number of attacks for one turn if (attacksForOneTurn==2) => Windfury
-    private int attacksForOneTurn = 1;
+    private int _attacksForOneTurn = 1;
     public int AttacksLeftThisTurn
     {
         get;
         set;
     }
 
-    // CONSTRUCTOR
     public CreatureLogic(Player owner, CardAsset ca)
     {
         this.ca = ca;
-        baseHealth = ca.MaxHealth;
+        _baseHealth = ca.MaxHealth;
         Health = ca.MaxHealth;
-        baseAttack = ca.Attack;
-        attacksForOneTurn = ca.AttacksForOneTurn;
-        // AttacksLeftThisTurn is now equal to 0
+        _baseAttack = ca.Attack;
+        _attacksForOneTurn = ca.AttacksForOneTurn;
+
         if (ca.Charge)
-            AttacksLeftThisTurn = attacksForOneTurn;
+            AttacksLeftThisTurn = _attacksForOneTurn;
+
         Taunt = ca.Taunt;
         this.owner = owner;
         UniqueCreatureID = IDFactory.GetUniqueID();
-        if (ca.CreatureScriptName!= null && ca.CreatureScriptName!= "")
+        if (!string.IsNullOrEmpty(ca.CreatureScriptName))
         {
             effect = System.Activator.CreateInstance(System.Type.GetType(ca.CreatureScriptName), new System.Object[]{owner, this, ca.SpecialCreatureAmount}) as CreatureEffect;
             effect.RegisterEventEffect();
         }
         CreaturesCreatedThisGame.Add(UniqueCreatureID, this);
     }
-
-    // METHODS
+    
     public void OnTurnStart()
     {
-        AttacksLeftThisTurn = attacksForOneTurn;
+        AttacksLeftThisTurn = _attacksForOneTurn;
     }
 
     public void Die()
     {   
         owner.table.CreaturesOnTable.Remove(this);
-
-        // cause Deathrattle Effect
+        
         if (effect != null)
         {
             effect.WhenACreatureDies();
@@ -139,7 +116,6 @@ public class CreatureLogic: ICharacter
     public void AttackCreature (CreatureLogic target)
     {
         AttacksLeftThisTurn--;
-        // calculate the values so that the creature does not fire the DIE command before the Attack command is sent
         int targetHealthAfter = target.Health - Attack;
         int attackerHealthAfter = Health - target.Attack;
         new CreatureAttackCommand(target.UniqueCreatureID, UniqueCreatureID, target.Attack, Attack, attackerHealthAfter, targetHealthAfter).AddToQueue();
@@ -153,8 +129,6 @@ public class CreatureLogic: ICharacter
         CreatureLogic target = CreatureLogic.CreaturesCreatedThisGame[uniqueCreatureID];
         AttackCreature(target);
     }
-
-    // STATIC For managing IDs
     public static Dictionary<int, CreatureLogic> CreaturesCreatedThisGame = new Dictionary<int, CreatureLogic>();
 
 }

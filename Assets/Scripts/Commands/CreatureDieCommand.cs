@@ -1,19 +1,17 @@
-﻿using UnityEngine;
-using System.Collections;
-
+﻿
 public class CreatureDieCommand : Command 
 {
-    private Player p;
-    private int DeadCreatureID;
+    private Player _p;
+    private int _deadCreatureId;
 
     public CreatureDieCommand(int CreatureID, Player p)
     {
-        this.p = p;
-        this.DeadCreatureID = CreatureID;
+        this._p = p;
+        this._deadCreatureId = CreatureID;
     }
 
     public override void StartCommandExecution()
     {
-        p.PArea.tableVisual.RemoveCreatureWithID(DeadCreatureID);
+        _p.PArea.tableVisual.RemoveCreatureWithID(_deadCreatureId);
     }
 }

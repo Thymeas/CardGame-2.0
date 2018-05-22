@@ -3,15 +3,15 @@ using System.Collections;
 
 public class GameOverCommand : Command{
 
-    private Player looser;
+    private Player _loser;
 
     public GameOverCommand(Player looser)
     {
-        this.looser = looser;
+        this._loser = looser;
     }
 
     public override void StartCommandExecution()
     {
-        looser.PArea.Portrait.Explode();
+        _loser.PArea.Portrait.Explode();
     }
 }

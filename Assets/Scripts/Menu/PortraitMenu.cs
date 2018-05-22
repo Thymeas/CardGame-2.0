@@ -9,7 +9,7 @@ public class PortraitMenu : MonoBehaviour {
     private PlayerPortraitVisual portrait;
     private float InitialScale;
     private float TargetScale = 1.3f;
-    private bool selected = false;
+    private bool selected;
 
     void Awake()
     {
@@ -21,13 +21,11 @@ public class PortraitMenu : MonoBehaviour {
 
     void OnMouseDown()
     {
-        // show the animation
         if (!selected)
         {
             selected = true;
             transform.DOScale(TargetScale, 0.5f);
             CharacterSelectionScreen.Instance.HeroPanel.SelectCharacter(this);
-            // deselect all the other Portrait Menu buttons 
             PortraitMenu[] allPortraitButtons = GameObject.FindObjectsOfType<PortraitMenu>();
             foreach (PortraitMenu m in allPortraitButtons)
                 if (m != this)

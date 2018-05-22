@@ -333,7 +333,6 @@
     <Compile Include="Assets\Scripts\PlayerPrefsX.cs" />
     <Compile Include="Assets\Scripts\PreviewSpriteAttribute.cs" />
     <Compile Include="Assets\Scripts\RarityColors.cs" />
-    <Compile Include="Assets\Scripts\RaycastExample.cs" />
     <Compile Include="Assets\Scripts\SceneReloader.cs" />
     <Compile Include="Assets\Scripts\ShufflingExtention.cs" />
     <Compile Include="Assets\Scripts\SO Asset Scripts\CardAsset\CardAsset.cs" />

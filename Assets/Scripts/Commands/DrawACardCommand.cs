@@ -1,29 +1,26 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿public class DrawACardCommand : Command {
 
-public class DrawACardCommand : Command {
-
-    private Player p;
-    private CardLogic cl;
-    private bool fast;
-    private bool fromDeck;
+    private Player _p;
+    private CardLogic _cl;
+    private bool _fast;
+    private bool _fromDeck;
 
     public Player player 
     {
-        get{ return p; }
+        get{ return _p; }
     }
 
     public DrawACardCommand(CardLogic cl, Player p, bool fast, bool fromDeck)
     {        
-        this.cl = cl;
-        this.p = p;
-        this.fast = fast;
-        this.fromDeck = fromDeck;
+        this._cl = cl;
+        this._p = p;
+        this._fast = fast;
+        this._fromDeck = fromDeck;
     }
 
     public override void StartCommandExecution()
     {
-        p.PArea.PDeck.CardsInDeck--;
-        p.PArea.handVisual.GivePlayerACard(cl.ca, cl.UniqueCardID, fast, fromDeck);
+        _p.PArea.PDeck.CardsInDeck--;
+        _p.PArea.handVisual.GivePlayerACard(_cl.ca, _cl.UniqueCardID, _fast, _fromDeck);
     }
 }

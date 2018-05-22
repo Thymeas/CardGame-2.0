@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class CardNameRibbon : MonoBehaviour {
@@ -28,14 +26,12 @@ public class CardNameRibbon : MonoBehaviour {
         if (quantity == 0)
             return;
         
-        QuantityText.text ="X" + quantity.ToString();
+        QuantityText.text ="X" + quantity;
         Quantity = quantity;
     }
 
     public void ReduceQuantity()
     {   
-        Debug.Log("In reduce Quantity");
-        // SetQuantity(--Quantity); this method will now be called from BuilderScript.RemoveCard(Asset);
         DeckBuildingScreen.Instance.BuilderScript.RemoveCard(Asset);
     }
 }

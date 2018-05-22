@@ -1,20 +1,18 @@
-﻿using UnityEngine;
-using System.Collections;
-using DG.Tweening;
+﻿using DG.Tweening;
 
 public class DelayCommand : Command 
 {
-    float delay;
+    private float _delay;
 
     public DelayCommand(float timeToWait)
     {
-        delay = timeToWait;    
+        _delay = timeToWait;    
     }
 
     public override void StartCommandExecution()
     {
         Sequence s = DOTween.Sequence();
-        s.PrependInterval(delay);
+        s.PrependInterval(_delay);
         s.OnComplete(Command.CommandExecutionComplete);
     }
 }

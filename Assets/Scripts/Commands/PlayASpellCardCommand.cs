@@ -1,23 +1,17 @@
-﻿using UnityEngine;
-using System.Collections;
-
-public class PlayASpellCardCommand: Command
+﻿public class PlayASpellCardCommand: Command
 {
-    private CardLogic card;
-    private Player p;
-    //private ICharacter target;
+    private CardLogic _card;
+    private Player _p;
 
     public PlayASpellCardCommand(Player p, CardLogic card)
     {
-        this.card = card;
-        this.p = p;
+        this._card = card;
+        this._p = p;
     }
 
     public override void StartCommandExecution()
     {
         Command.CommandExecutionComplete();
-        // move this card to the spot
-        p.PArea.handVisual.PlayASpellFromHand(card.UniqueCardID);
-        // do all the visual stuff (for each spell separately????)
+        _p.PArea.handVisual.PlayASpellFromHand(_card.UniqueCardID);
     }
 }

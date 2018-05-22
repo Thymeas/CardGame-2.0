@@ -43,7 +43,6 @@ public class RopeTimer : MonoBehaviour, IEventSystemHandler
 		counting = false;
 	}
 	
-	// Update is called once per frame
 	void Update () 
 	{
 		if (counting) 
@@ -54,24 +53,18 @@ public class RopeTimer : MonoBehaviour, IEventSystemHandler
 
             if (RopeGameObject != null)
             {
-                // check for rope
                 if (timeTillZero <= RopeBurnTime && !ropeIsBurning)
                 {
                     ropeIsBurning = true;
                     RopeGameObject.SetActive(true);
                 }
-                // rope update
                 if (ropeIsBurning)
-                {
                     RopeSlider.value = timeTillZero;
-                }
             }
 
-            // check for TimeExpired
 			if(timeTillZero<=0)
 			{
-				counting = false;
-                //RopeGameObject.SetActive(false);
+			    counting = false;
                 TimerExpired.Invoke();
 			}
 		}

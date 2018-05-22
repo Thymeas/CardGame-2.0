@@ -26,7 +26,6 @@ namespace UnityEditor
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            //Draw the normal property field
             EditorGUI.PropertyField(position, property, label, true);
 
             if (property.propertyType == SerializedPropertyType.ObjectReference)
@@ -36,8 +35,6 @@ namespace UnityEditor
                 {
                     position.y += EditorGUI.GetPropertyHeight(property, label, true) + 5;
                     position.height = imageHeight;
-
-                    //GUI.DrawTexture(position, sprite.texture, ScaleMode.ScaleToFit);
                     DrawTexturePreview(position, sprite);
                 }
             }

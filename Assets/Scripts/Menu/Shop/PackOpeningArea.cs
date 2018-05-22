@@ -19,8 +19,6 @@ public class PackOpeningArea : MonoBehaviour {
     public float EpicProbability;
     [Range(0,1)]
     public float RareProbability;
-    // these are the glow colors that will show while opening cards
-    // or you can use colors from  RarityColors
     [Header ("Colors")]
     public Color32 LegendaryColor;
     public Color32 EpicColor;
@@ -43,10 +41,7 @@ public class PackOpeningArea : MonoBehaviour {
         { 
             numOfCardsOpened = value;
             if (value == SlotsForCards.Length)
-            {
-                // activate the Done button
                 DoneButton.gameObject.SetActive(true);
-            }
         }
     }
 
@@ -64,14 +59,11 @@ public class PackOpeningArea : MonoBehaviour {
 
     public bool CursorOverArea()
     {
-        RaycastHit[] hits;
-        // raycst to mousePosition and store all the hits in the array
-        hits = Physics.RaycastAll(Camera.main.ScreenPointToRay(Input.mousePosition), 30f);
+        var hits = Physics.RaycastAll(Camera.main.ScreenPointToRay(Input.mousePosition), 30f);
 
         bool passedThroughTableCollider = false;
         foreach (RaycastHit h in hits)
         {
-            // check if the collider that we hit is the collider on this GameObject
             if (h.collider == col)
                 passedThroughTableCollider = true;
         }
@@ -79,15 +71,11 @@ public class PackOpeningArea : MonoBehaviour {
     }
 
     public void ShowPackOpening(Vector3 cardsInitialPosition)
-    {      
-        // ShopManager.Instance.PacksCreated--;
-        // Allow To Drag Another Pack Only After DoneButton Is pressed
-        // 1) Determine rarity of all cards
+    {   
         RarityOptions[] rarities = new RarityOptions[SlotsForCards.Length];
         bool AtLeastOneRareGiven = false;
         for (int i = 0; i < rarities.Length; i++)
         {
-            // determine rarity of this card
             float prob = Random.Range(0f,1f);
             if (prob < LegendaryProbability)
             {
@@ -127,7 +115,6 @@ public class PackOpeningArea : MonoBehaviour {
         List<CardAsset> CardsOfThisRarity = CardCollection.Instance.GetCardsWithRarity(rarity);
         CardAsset a = CardsOfThisRarity[Random.Range(0, CardsOfThisRarity.Count)];
 
-        // add this card to your collection. 
         CardCollection.Instance.QuantityOfEachCard[a]++;
 
         GameObject card;

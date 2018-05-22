@@ -1,31 +1,28 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class CreatureAttackCommand : Command 
 {
-    // position of creature on enemy`s table that will be attacked
-    // if enemyindex == -1 , attack an enemy character 
-    private int TargetUniqueID;
-    private int AttackerUniqueID;
-    private int AttackerHealthAfter;
-    private int TargetHealthAfter;
-    private int DamageTakenByAttacker;
-    private int DamageTakenByTarget;
+    private int _targetUniqueId;
+    private int _attackerUniqueId;
+    private int _attackerHealthAfter;
+    private int _targetHealthAfter;
+    private int _damageTakenByAttacker;
+    private int _damageTakenByTarget;
 
     public CreatureAttackCommand(int targetID, int attackerID, int damageTakenByAttacker, int damageTakenByTarget, int attackerHealthAfter, int targetHealthAfter)
     {
-        this.TargetUniqueID = targetID;
-        this.AttackerUniqueID = attackerID;
-        this.AttackerHealthAfter = attackerHealthAfter;
-        this.TargetHealthAfter = targetHealthAfter;
-        this.DamageTakenByTarget = damageTakenByTarget;
-        this.DamageTakenByAttacker = damageTakenByAttacker;
+        this._targetUniqueId = targetID;
+        this._attackerUniqueId = attackerID;
+        this._attackerHealthAfter = attackerHealthAfter;
+        this._targetHealthAfter = targetHealthAfter;
+        this._damageTakenByTarget = damageTakenByTarget;
+        this._damageTakenByAttacker = damageTakenByAttacker;
     }
 
     public override void StartCommandExecution()
     {
-        GameObject Attacker = IDHolder.GetGameObjectWithID(AttackerUniqueID);
+        GameObject Attacker = IDHolder.GetGameObjectWithID(_attackerUniqueId);
 
-        Attacker.GetComponent<CreatureAttackVisual>().AttackTarget(TargetUniqueID, DamageTakenByTarget, DamageTakenByAttacker, AttackerHealthAfter, TargetHealthAfter);
+        Attacker.GetComponent<CreatureAttackVisual>().AttackTarget(_targetUniqueId, _damageTakenByTarget, _damageTakenByAttacker, _attackerHealthAfter, _targetHealthAfter);
     }
 }

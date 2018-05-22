@@ -24,8 +24,6 @@ public class DeckIcon : MonoBehaviour
     public void ApplyLookToIcon(DeckInfo info)
     {
         DeckInformation = info;
-
-        // check if this deck is complete
         DeckNotCompleteObject.SetActive(!info.IsComplete());
            
         portrait.charAsset = info.Character;
@@ -35,16 +33,13 @@ public class DeckIcon : MonoBehaviour
 
     void OnMouseDown()
     {
-        // show the animation
         if (!selected)
         {
             selected = true;
-            // zoom in on the deck only if it is complete
             if (DeckInformation.IsComplete())
                 transform.DOScale(TargetScale, 0.5f);
 
             DeckSelectionScreen.Instance.HeroPanelDeckSelection.SelectDeck(this);
-            // deselect all the other Portrait Menu buttons 
             DeckIcon[] allPortraitButtons = GameObject.FindObjectsOfType<DeckIcon>();
             foreach (DeckIcon m in allPortraitButtons)
                 if (m != this)

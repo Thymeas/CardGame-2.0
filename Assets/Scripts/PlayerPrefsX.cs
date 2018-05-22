@@ -1,5 +1,4 @@
-﻿// ArrayPrefs2 v 1.4
-using UnityEngine;
+﻿using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -80,18 +79,14 @@ public class PlayerPrefsX
     {
         var floatArray = GetFloatArray(key);
         if (floatArray.Length < 2)
-        {
             return Vector2.zero;
-        }
         return new Vector2(floatArray[0], floatArray[1]);
     }
 
     public static Vector2 GetVector2 (String key, Vector2 defaultValue)
     {
         if (PlayerPrefs.HasKey(key))
-        {
             return GetVector2(key);
-        }
         return defaultValue;
     }
 
@@ -104,18 +99,14 @@ public class PlayerPrefsX
     {
         var floatArray = GetFloatArray(key);
         if (floatArray.Length < 3)
-        {
             return Vector3.zero;
-        }
         return new Vector3(floatArray[0], floatArray[1], floatArray[2]);
     }
 
     public static Vector3 GetVector3 (String key, Vector3 defaultValue)
     {
         if (PlayerPrefs.HasKey(key))
-        {
             return GetVector3(key);
-        }
         return defaultValue;
     }
 
@@ -128,18 +119,14 @@ public class PlayerPrefsX
     {
         var floatArray = GetFloatArray(key);
         if (floatArray.Length < 4)
-        {
             return Quaternion.identity;
-        }
         return new Quaternion(floatArray[0], floatArray[1], floatArray[2], floatArray[3]);
     }
 
     public static Quaternion GetQuaternion (String key, Quaternion defaultValue )
     {
         if (PlayerPrefs.HasKey(key))
-        {
             return GetQuaternion(key);
-        }
         return defaultValue;
     }
 
@@ -148,22 +135,19 @@ public class PlayerPrefsX
         return SetFloatArray(key, new float[]{color.r, color.g, color.b, color.a});
     }
 
-    public static Color GetColor (String key)
+    public static Color GetColor(String key)
     {
         var floatArray = GetFloatArray(key);
         if (floatArray.Length < 4)
-        {
             return new Color(0.0f, 0.0f, 0.0f, 0.0f);
-        }
-        return new Color(floatArray[0], floatArray[1], floatArray[2], floatArray[3]);
+    
+       return new Color(floatArray[0], floatArray[1], floatArray[2], floatArray[3]);
     }
 
     public static Color GetColor (String key , Color defaultValue )
     {
         if (PlayerPrefs.HasKey(key))
-        {
             return GetColor(key);
-        }
         return defaultValue;
     }
 

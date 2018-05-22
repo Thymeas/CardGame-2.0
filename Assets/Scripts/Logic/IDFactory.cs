@@ -8,7 +8,6 @@ public static class IDFactory {
 
     public static int GetUniqueID()
     {
-        // Count++ has to go first, otherwise - unreachable code.
         Count++;
         return Count;
     }
