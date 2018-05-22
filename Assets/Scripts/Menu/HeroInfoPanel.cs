@@ -1,15 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class HeroInfoPanel : MonoBehaviour {
 
-    public PlayerPortraitVisual portrait;
+    public PlayerPortraitVisual Portrait;
     public Button PlayButton;
     public Button BuildDeckButton;
-    public PortraitMenu selectedPortrait{ get; set;}
-    public DeckIcon selectedDeck{ get; set;}
+    public PortraitMenu SelectedPortrait{ get; set;}
+    public DeckIcon SelectedDeck{ get; set;}
 
     void Awake()
     {
@@ -24,19 +22,19 @@ public class HeroInfoPanel : MonoBehaviour {
 
     public void SelectCharacter(PortraitMenu menuPortrait)
     {
-        if (menuPortrait == null || selectedPortrait == menuPortrait)
+        if (menuPortrait == null || SelectedPortrait == menuPortrait)
         {
-            portrait.gameObject.SetActive(false);
-            selectedPortrait = null;
+            Portrait.gameObject.SetActive(false);
+            SelectedPortrait = null;
             if (BuildDeckButton!=null)
                 BuildDeckButton.interactable = false;
         }
         else
         {            
-            portrait.charAsset = menuPortrait.asset;
-            portrait.ApplyLookFromAsset();
-            portrait.gameObject.SetActive(true);
-            selectedPortrait = menuPortrait;
+            Portrait.charAsset = menuPortrait.asset;
+            Portrait.ApplyLookFromAsset();
+            Portrait.gameObject.SetActive(true);
+            SelectedPortrait = menuPortrait;
             if (BuildDeckButton!=null)
                 BuildDeckButton.interactable = true;
         }
@@ -44,35 +42,32 @@ public class HeroInfoPanel : MonoBehaviour {
 
     public void SelectDeck(DeckIcon deck)
     {
-        if (deck == null || selectedDeck == deck || !deck.DeckInformation.IsComplete())
+        if (deck == null || SelectedDeck == deck || !deck.DeckInformation.IsComplete())
         {
-            portrait.gameObject.SetActive(false);
-            selectedDeck = null;
+            Portrait.gameObject.SetActive(false);
+            SelectedDeck = null;
+
             if (PlayButton!=null)
                 PlayButton.interactable = false;
         }
         else
         {           
-            portrait.charAsset = deck.DeckInformation.Character;
-            portrait.ApplyLookFromAsset();
-            portrait.gameObject.SetActive(true);
-            selectedDeck = deck;
-            // instantly load this information to our BattleStartInfo.
-            BattleStartInfo.SelectedDeck = selectedDeck.DeckInformation;
+            Portrait.charAsset = deck.DeckInformation.Character;
+            Portrait.ApplyLookFromAsset();
+            Portrait.gameObject.SetActive(true);
+            SelectedDeck = deck;
+            BattleStartInfo.SelectedDeck = SelectedDeck.DeckInformation;
 
             if (PlayButton!=null)
                 PlayButton.interactable = true;
         }
     }
-
-    // this method is called when we are on the character selection screen
-    // it opens the deck bulder for the character that we have selected
     public void GoToDeckbuilding()
     {
-        if (selectedPortrait == null)
+        if (SelectedPortrait == null)
             return;
 
-        DeckBuildingScreen.Instance.BuildADeckFor(selectedPortrait.asset);
+        DeckBuildingScreen.Instance.BuildADeckFor(SelectedPortrait.asset);
     }
         
 }

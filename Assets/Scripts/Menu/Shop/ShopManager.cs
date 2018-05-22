@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
@@ -32,48 +31,44 @@ public class ShopManager : MonoBehaviour {
         Instance = this;
         HideScreen();
 
-        if (PlayerPrefs.HasKey("UnopenedPacks"))
-        {
-            Debug.Log("UnopenedPacks: " + PlayerPrefs.GetInt("UnopenedPacks"));
+        if (PlayerPrefs.HasKey("UnopenedPacks"))     
             StartCoroutine(GivePacks(PlayerPrefs.GetInt("UnopenedPacks"), true));
-        }
-            
 
         LoadDustAndMoneyToPlayerPrefs();
 
     }
 
-    private int money; 
+    private int _money; 
     public int Money
     {
-        get{ return money; }
+        get{ return _money; }
         set
         {
-            money = value;
-            MoneyText.text = money.ToString();
+            _money = value;
+            MoneyText.text = _money.ToString();
         }
     }
 
-    private int dust; 
+    private int _dust; 
     public int Dust
     {
-        get{ return dust; }
+        get{ return _dust; }
         set
         {
-            dust = value;
-            DustText.text = dust.ToString();
+            _dust = value;
+            DustText.text = _dust.ToString();
         }
     }
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.A))
-            money += 100;
+            _money += 100;
     }
 
     public void BuyPack()
     {
-        if (money >= PackPrice)
+        if (_money >= PackPrice)
         {
             Money -= PackPrice;
             StartCoroutine(GivePacks(1));
@@ -89,7 +84,6 @@ public class ShopManager : MonoBehaviour {
             newPack.transform.localEulerAngles = new Vector3(0f, 0f, Random.Range(-RotationRange, RotationRange));
             PacksCreated++;
 
-            // make this pack appear on top of all the previous packs using PacksCreated;
             newPack.GetComponentInChildren<Canvas>().sortingOrder = PacksCreated;
             if (instant)
                 newPack.transform.localPosition = localPositionForNewPack;
@@ -107,27 +101,20 @@ public class ShopManager : MonoBehaviour {
     void OnApplicationQuit()
     {
         SaveDustAndMoneyToPlayerPrefs();
-
         PlayerPrefs.SetInt("UnopenedPacks", PacksCreated);
     }
 
     public void LoadDustAndMoneyToPlayerPrefs()
     {
-        if (PlayerPrefs.HasKey("Dust"))
-            Dust = PlayerPrefs.GetInt("Dust");
-        else
-            Dust = StartingAmountOfDust;  // default value of dust to give to player
+        Dust = PlayerPrefs.HasKey("Dust") ? PlayerPrefs.GetInt("Dust") : StartingAmountOfDust;
 
-        if (PlayerPrefs.HasKey("Money"))
-            Money = PlayerPrefs.GetInt("Money");
-        else
-            Money = StartingAmountOfMoney;  // default value of dust to give to player
+        Money = PlayerPrefs.HasKey("Money") ? PlayerPrefs.GetInt("Money") : StartingAmountOfMoney;
     }
         
     public void SaveDustAndMoneyToPlayerPrefs()
     {
-        PlayerPrefs.SetInt("Dust", dust);
-        PlayerPrefs.SetInt("Money", money);
+        PlayerPrefs.SetInt("Dust", _dust);
+        PlayerPrefs.SetInt("Money", _money);
     }
 
     public void ShowScreen()

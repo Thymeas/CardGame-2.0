@@ -7,8 +7,8 @@ public class PlayerPortraitVisual : MonoBehaviour {
 
     public CharacterAsset charAsset;
     [Header("Text Component References")]
-    //public Text NameText;
     public Text HealthText;
+
     [Header("Image References")]
     public Image HeroPowerIconImage;
     public Image HeroPowerBackgroundImage;
@@ -26,14 +26,14 @@ public class PlayerPortraitVisual : MonoBehaviour {
         if (HeroPowerIconImage != null)
         {
             HeroPowerIconImage.sprite = charAsset.HeroPowerIconImage;
-            HeroPowerBackgroundImage.sprite = charAsset.HeroPowerBGImage;
-            HeroPowerBackgroundImage.color = charAsset.HeroPowerBGTint;
+            HeroPowerBackgroundImage.sprite = charAsset.HeroPowerBgImage;
+            HeroPowerBackgroundImage.color = charAsset.HeroPowerBgTint;
         }
 
         HealthText.text = charAsset.MaxHealth.ToString();
         PortraitImage.sprite = charAsset.AvatarImage;
-        PortraitBackgroundImage.sprite = charAsset.AvatarBGImage;       
-        PortraitBackgroundImage.color = charAsset.AvatarBGTint;
+        PortraitBackgroundImage.sprite = charAsset.AvatarBgImage;       
+        PortraitBackgroundImage.color = charAsset.AvatarBgTint;
 
     }
 

@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-public enum CharClass{ Elf, Monk, Warrior}
+public enum CharClass{ Hunter, Warlock, Warrior}
 
 public class CharacterAsset : ScriptableObject 
 {
@@ -11,10 +10,10 @@ public class CharacterAsset : ScriptableObject
 	public string HeroPowerName;
 	public Sprite AvatarImage;
     public Sprite HeroPowerIconImage;
-    public Sprite AvatarBGImage;
-    public Sprite HeroPowerBGImage;
-    public Color32 AvatarBGTint;
-    public Color32 HeroPowerBGTint;
+    public Sprite AvatarBgImage;
+    public Sprite HeroPowerBgImage;
+    public Color32 AvatarBgTint;
+    public Color32 HeroPowerBgTint;
     public Color32 ClassCardTint;
     public Color32 ClassRibbonsTint;
 }

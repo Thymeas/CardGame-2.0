@@ -52,7 +52,7 @@ public class OneCreatureManager : MonoBehaviour
 
         if (PreviewManager != null)
         {
-            PreviewManager.cardAsset = cardAsset;
+            PreviewManager.CardAsset = cardAsset;
             PreviewManager.ReadCardFromAsset();
         }
 

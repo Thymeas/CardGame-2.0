@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
@@ -11,7 +10,6 @@ public class DeckInfo
 
     public DeckInfo(List<CardAsset> cards, string deckName, CharacterAsset charAsset)
     {
-        // copy a list, not just use the cards list
         Cards = new List<CardAsset>(cards);
         Character = charAsset;
         DeckName = deckName;
@@ -59,24 +57,19 @@ public class DecksStorage : MonoBehaviour {
     void LoadDecksFromPlayerPrefs()
     {
         List<DeckInfo> DecksFound = new List<DeckInfo>();
-        // load the information about decks from PlayerPrefsX
+
         for(int i=0; i < 9; i++)
         {
-            string deckListKey = "Deck" + i.ToString();
-            string characterKey = "DeckHero" + i.ToString();
-            string deckNameKey = "DeckName" + i.ToString();
+            string deckListKey = "Deck" + i;
+            string characterKey = "DeckHero" + i;
+            string deckNameKey = "DeckName" + i;
             string[] DeckAsCardNames = PlayerPrefsX.GetStringArray(deckListKey);
-
-            Debug.Log("Has character key: "+  PlayerPrefs.HasKey(characterKey));
-            Debug.Log("Has Deckname key: "+  PlayerPrefs.HasKey(deckNameKey));
-            Debug.Log("Length of DeckAsCardNames: " + DeckAsCardNames.Length);
 
             if (DeckAsCardNames.Length > 0 && PlayerPrefs.HasKey(characterKey) && PlayerPrefs.HasKey(deckNameKey))
             {
                 string characterName = PlayerPrefs.GetString(characterKey);
                 string deckName = PlayerPrefs.GetString(deckNameKey);
-
-                // make a CardAsset list from an array of strings:
+                
                 List <CardAsset> deckList = new List<CardAsset>();
                 foreach(string name in DeckAsCardNames)
                 {
@@ -91,29 +84,24 @@ public class DecksStorage : MonoBehaviour {
     }
 
     public void SaveDecksIntoPlayerPrefs()
-    {
-        // clear all the keys of characters and deck names
+    { 
         for(int i=0; i < 9; i++)
         {
-            string characterKey = "DeckHero" + i.ToString();
-            string deckNameKey = "DeckName" + i.ToString();
+            string characterKey = "DeckHero" + i;
+            string deckNameKey = "DeckName" + i;
            
             if (PlayerPrefs.HasKey(characterKey))
-            {
                 PlayerPrefs.DeleteKey(characterKey);
-            }
 
             if(PlayerPrefs.HasKey(deckNameKey))
-            {
                 PlayerPrefs.DeleteKey(deckNameKey);
-            }
         }
 
         for(int i=0; i< AllDecks.Count; i++)
         {
-            string deckListKey = "Deck" + i.ToString();
-            string characterKey = "DeckHero" + i.ToString();
-            string deckNameKey = "DeckName" + i.ToString();
+            string deckListKey = "Deck" + i;
+            string characterKey = "DeckHero" + i;
+            string deckNameKey = "DeckName" + i;
 
             List<string> cardNamesList = new List<string>();
             foreach (CardAsset a in AllDecks[i].Cards)

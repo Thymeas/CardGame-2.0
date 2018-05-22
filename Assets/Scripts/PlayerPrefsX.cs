@@ -6,10 +6,10 @@ using System.Collections.Generic;
 
 public class PlayerPrefsX
 {
-    static private int endianDiff1;
-    static private int endianDiff2;
-    static private int idx;
-    static private byte [] byteBlock;
+    private static int _endianDiff1;
+    private static int _endianDiff2;
+    private static int _idx;
+    private static byte [] _byteBlock;
 
     enum ArrayType {Float, Int32, Bool, String, Vector2, Vector3, Quaternion, Color}
 
@@ -43,7 +43,6 @@ public class PlayerPrefsX
         lowBits = PlayerPrefs.GetInt(key+"_lowBits", lowBits);
         highBits = PlayerPrefs.GetInt(key+"_highBits", highBits);
 
-        // unsigned, to prevent loss of sign bit.
         ulong ret = (uint)highBits;
         ret = (ret << 32);
         return (long)(ret | (ulong)(uint)lowBits);
@@ -53,8 +52,6 @@ public class PlayerPrefsX
     {
         int lowBits = PlayerPrefs.GetInt(key+"_lowBits");
         int highBits = PlayerPrefs.GetInt(key+"_highBits");
-
-        // unsigned, to prevent loss of sign bit.
         ulong ret = (uint)highBits;
         ret = (ret << 32);
         return (long)(ret | (ulong)(uint)lowBits);
@@ -62,7 +59,6 @@ public class PlayerPrefsX
 
     private static void SplitLong(long input, out int lowBits, out int highBits)
     {
-        // unsigned everything, to prevent loss of sign bit.
         lowBits = (int)(uint)(ulong)input;
         highBits = (int)(uint)(input >> 32);
     }
@@ -173,14 +169,12 @@ public class PlayerPrefsX
 
     public static bool SetBoolArray (String key, bool[] boolArray)
     {
-        // Make a byte array that's a multiple of 8 in length, plus 5 bytes to store the number of entries as an int32 (+ identifier)
-        // We have to store the number of entries, since the boolArray length might not be a multiple of 8, so there could be some padded zeroes
         var bytes = new byte[(boolArray.Length + 7)/8 + 5];
-        bytes[0] = System.Convert.ToByte (ArrayType.Bool);  // Identifier
+        bytes[0] = System.Convert.ToByte (ArrayType.Bool);
         var bits = new BitArray(boolArray);
         bits.CopyTo (bytes, 5);
         Initialize();
-        ConvertInt32ToBytes (boolArray.Length, bytes); // The number of entries in the boolArray goes in the first 4 bytes
+        ConvertInt32ToBytes (boolArray.Length, bytes);
 
         return SaveBytes (key, bytes);  
     }
@@ -190,23 +184,10 @@ public class PlayerPrefsX
         if (PlayerPrefs.HasKey(key))
         {
             var bytes = System.Convert.FromBase64String (PlayerPrefs.GetString(key));
-            if (bytes.Length < 5)
-            {
-                Debug.LogError ("Corrupt preference file for " + key);
-                return new bool[0];
-            }
-            if ((ArrayType)bytes[0] != ArrayType.Bool)
-            {
-                Debug.LogError (key + " is not a boolean array");
-                return new bool[0];
-            }
             Initialize();
-
-            // Make a new bytes array that doesn't include the number of entries + identifier (first 5 bytes) and turn that into a BitArray
             var bytes2 = new byte[bytes.Length-5];
             System.Array.Copy(bytes, 5, bytes2, 0, bytes2.Length);
             var bits = new BitArray(bytes2);
-            // Get the number of entries from the first 4 bytes after the identifier and resize the BitArray to that length, then convert it to a boolean array
             bits.Length = ConvertBytesToInt32 (bytes);
             var boolArray = new bool[bits.Count];
             bits.CopyTo (boolArray, 0);
@@ -233,23 +214,12 @@ public class PlayerPrefsX
     public static bool SetStringArray (String key, String[] stringArray)
     {
         var bytes = new byte[stringArray.Length + 1];
-        bytes[0] = System.Convert.ToByte (ArrayType.String);    // Identifier
+        bytes[0] = System.Convert.ToByte (ArrayType.String);
         Initialize();
 
-        // Store the length of each string that's in stringArray, so we can extract the correct strings in GetStringArray
-        for (var i = 0; i < stringArray.Length; i++)
+        foreach (var t in stringArray)
         {
-            if (stringArray[i] == null)
-            {
-                Debug.LogError ("Can't save null entries in the string array when setting " + key);
-                return false;
-            }
-            if (stringArray[i].Length > 255)
-            {
-                Debug.LogError ("Strings cannot be longer than 255 characters when setting " + key);
-                return false;
-            }
-            bytes[idx++] = (byte)stringArray[i].Length;
+            bytes[_idx++] = (byte)t.Length;
         }
 
         try
@@ -268,15 +238,8 @@ public class PlayerPrefsX
         if (PlayerPrefs.HasKey(key)) {
             var completeString = PlayerPrefs.GetString(key);
             var separatorIndex = completeString.IndexOf("|"[0]);
-            if (separatorIndex < 4) {
-                Debug.LogError ("Corrupt preference file for " + key);
-                return new String[0];
-            }
             var bytes = System.Convert.FromBase64String (completeString.Substring(0, separatorIndex));
-            if ((ArrayType)bytes[0] != ArrayType.String) {
-                Debug.LogError (key + " is not a string array");
-                return new String[0];
-            }
+         
             Initialize();
 
             var numberOfEntries = bytes.Length-1;
@@ -284,16 +247,10 @@ public class PlayerPrefsX
             var stringIndex = separatorIndex + 1;
             for (var i = 0; i < numberOfEntries; i++)
             {
-                int stringLength = bytes[idx++];
-                if (stringIndex + stringLength > completeString.Length)
-                {
-                    Debug.LogError ("Corrupt preference file for " + key);
-                    return new String[0];
-                }
+                int stringLength = bytes[_idx++];
                 stringArray[i] = completeString.Substring(stringIndex, stringLength);
                 stringIndex += stringLength;
             }
-
             return stringArray;
         }
         return new String[0];
@@ -346,7 +303,7 @@ public class PlayerPrefsX
     private static bool SetValue<T> (String key, T array, ArrayType arrayType, int vectorNumber, Action<T, byte[],int> convert) where T : IList
     {
         var bytes = new byte[(4*array.Count)*vectorNumber + 1];
-        bytes[0] = System.Convert.ToByte (arrayType);   // Identifier
+        bytes[0] = System.Convert.ToByte (arrayType);
         Initialize();
 
         for (var i = 0; i < array.Count; i++) {
@@ -404,9 +361,8 @@ public class PlayerPrefsX
     public static int[] GetIntArray (String key, int defaultValue, int defaultSize)
     {
         if (PlayerPrefs.HasKey(key))
-        {
             return GetIntArray(key);
-        }
+
         var intArray = new int[defaultSize];
         for (int i=0; i<defaultSize; i++)
         {
@@ -425,9 +381,8 @@ public class PlayerPrefsX
     public static float[] GetFloatArray (String key, float defaultValue, int defaultSize)
     {
         if (PlayerPrefs.HasKey(key))
-        {
             return GetFloatArray(key);
-        }
+
         var floatArray = new float[defaultSize];
         for (int i=0; i<defaultSize; i++)
         {
@@ -446,9 +401,8 @@ public class PlayerPrefsX
     public static Vector2[] GetVector2Array (String key, Vector2 defaultValue, int defaultSize)
     {
         if (PlayerPrefs.HasKey(key))
-        {
             return GetVector2Array(key);
-        }
+
         var vector2Array = new Vector2[defaultSize];
         for(int i=0; i< defaultSize;i++)
         {
@@ -467,10 +421,8 @@ public class PlayerPrefsX
     public static Vector3[] GetVector3Array (String key, Vector3 defaultValue, int defaultSize)
     {
         if (PlayerPrefs.HasKey(key))
-
-        {
             return GetVector3Array(key);
-        }
+
         var vector3Array = new Vector3[defaultSize];
         for (int i=0; i<defaultSize;i++)
         {
@@ -489,9 +441,8 @@ public class PlayerPrefsX
     public static Quaternion[] GetQuaternionArray (String key, Quaternion defaultValue, int defaultSize)
     {
         if (PlayerPrefs.HasKey(key))
-        {
             return GetQuaternionArray(key);
-        }
+
         var quaternionArray = new Quaternion[defaultSize];
         for(int i=0;i<defaultSize;i++)
         {
@@ -508,10 +459,10 @@ public class PlayerPrefsX
     }
 
     public static Color[] GetColorArray (String key, Color defaultValue, int defaultSize)
-    {
-        if (PlayerPrefs.HasKey(key)) {
+    { 
+        if (PlayerPrefs.HasKey(key)) 
             return GetColorArray(key);
-        }
+
         var colorArray = new Color[defaultSize];
         for(int i=0;i<defaultSize;i++)
         {
@@ -525,16 +476,6 @@ public class PlayerPrefsX
         if (PlayerPrefs.HasKey(key))
         {
             var bytes = System.Convert.FromBase64String (PlayerPrefs.GetString(key));
-            if ((bytes.Length-1) % (vectorNumber*4) != 0)
-            {
-                Debug.LogError ("Corrupt preference file for " + key);
-                return;
-            }
-            if ((ArrayType)bytes[0] != arrayType)
-            {
-                Debug.LogError (key + " is not a " + arrayType.ToString() + " array");
-                return;
-            }
             Initialize();
 
             var end = (bytes.Length-1) / (vectorNumber*4);
@@ -581,7 +522,6 @@ public class PlayerPrefsX
         if (bytes.Length > 0)
         {
             ArrayType arrayType = (ArrayType)bytes[0];
-            Debug.Log (key + " is a " + arrayType.ToString() + " array");
         }
     }
 
@@ -589,19 +529,19 @@ public class PlayerPrefsX
     {
         if (System.BitConverter.IsLittleEndian)
         {
-            endianDiff1 = 0;
-            endianDiff2 = 0;
+            _endianDiff1 = 0;
+            _endianDiff2 = 0;
         }
         else
         {
-            endianDiff1 = 3;
-            endianDiff2 = 1;
+            _endianDiff1 = 3;
+            _endianDiff2 = 1;
         }
-        if (byteBlock == null)
+        if (_byteBlock == null)
         {
-            byteBlock = new byte[4];
+            _byteBlock = new byte[4];
         }
-        idx = 1;
+        _idx = 1;
     }
 
     private static bool SaveBytes (String key, byte[] bytes)
@@ -619,43 +559,43 @@ public class PlayerPrefsX
 
     private static void ConvertFloatToBytes (float f, byte[] bytes)
     {
-        byteBlock = System.BitConverter.GetBytes (f);
+        _byteBlock = System.BitConverter.GetBytes (f);
         ConvertTo4Bytes (bytes);
     }
 
     private static float ConvertBytesToFloat (byte[] bytes)
     {
         ConvertFrom4Bytes (bytes);
-        return System.BitConverter.ToSingle (byteBlock, 0);
+        return System.BitConverter.ToSingle (_byteBlock, 0);
     }
 
     private static void ConvertInt32ToBytes (int i, byte[] bytes)
     {
-        byteBlock = System.BitConverter.GetBytes (i);
+        _byteBlock = System.BitConverter.GetBytes (i);
         ConvertTo4Bytes (bytes);
     }
 
     private static int ConvertBytesToInt32 (byte[] bytes)
     {
         ConvertFrom4Bytes (bytes);
-        return System.BitConverter.ToInt32 (byteBlock, 0);
+        return System.BitConverter.ToInt32 (_byteBlock, 0);
     }
 
     private static void ConvertTo4Bytes (byte[] bytes)
     {
-        bytes[idx  ] = byteBlock[    endianDiff1];
-        bytes[idx+1] = byteBlock[1 + endianDiff2];
-        bytes[idx+2] = byteBlock[2 - endianDiff2];
-        bytes[idx+3] = byteBlock[3 - endianDiff1];
-        idx += 4;
+        bytes[_idx  ] = _byteBlock[    _endianDiff1];
+        bytes[_idx+1] = _byteBlock[1 + _endianDiff2];
+        bytes[_idx+2] = _byteBlock[2 - _endianDiff2];
+        bytes[_idx+3] = _byteBlock[3 - _endianDiff1];
+        _idx += 4;
     }
 
     private static void ConvertFrom4Bytes (byte[] bytes)
     {
-        byteBlock[    endianDiff1] = bytes[idx  ];
-        byteBlock[1 + endianDiff2] = bytes[idx+1];
-        byteBlock[2 - endianDiff2] = bytes[idx+2];
-        byteBlock[3 - endianDiff1] = bytes[idx+3];
-        idx += 4;
+        _byteBlock[    _endianDiff1] = bytes[_idx  ];
+        _byteBlock[1 + _endianDiff2] = bytes[_idx+1];
+        _byteBlock[2 - _endianDiff2] = bytes[_idx+2];
+        _byteBlock[3 - _endianDiff1] = bytes[_idx+3];
+        _idx += 4;
     }
 }

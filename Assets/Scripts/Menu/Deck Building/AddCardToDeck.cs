@@ -20,7 +20,7 @@ public class AddCardToDeck : MonoBehaviour {
 
     void OnMouseDown()
     {
-        CardAsset asset = GetComponent<OneCardManager>().cardAsset;
+        CardAsset asset = GetComponent<OneCardManager>().CardAsset;
         if (asset == null)
             return;
 
@@ -81,7 +81,7 @@ public class AddCardToDeck : MonoBehaviour {
                 Debug.Log("Right Clicked on " + this.name);
 
                 // show craft/disenchant info
-                CraftingScreen.Instance.ShowCraftingScreen(GetComponent<OneCardManager>().cardAsset);
+                CraftingScreen.Instance.ShowCraftingScreen(GetComponent<OneCardManager>().CardAsset);
             }
         }
     }

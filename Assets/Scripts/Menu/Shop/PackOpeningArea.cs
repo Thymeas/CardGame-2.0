@@ -138,7 +138,7 @@ public class PackOpeningArea : MonoBehaviour {
 
         card.transform.rotation = Quaternion.Euler(0f, 180f, 0f);
         OneCardManager manager = card.GetComponent<OneCardManager>();
-        manager.cardAsset = a;
+        manager.CardAsset = a;
         manager.ReadCardFromAsset();
         return card;
     }

@@ -228,7 +228,7 @@ public class CollectionBrowser : MonoBehaviour {
             CreatedCards.Add(newMenuCard);
 
             OneCardManager manager = newMenuCard.GetComponent<OneCardManager>();
-            manager.cardAsset = CardsOnThisPage[i];
+            manager.CardAsset = CardsOnThisPage[i];
             manager.ReadCardFromAsset();
 
             AddCardToDeck addCardComponent = newMenuCard.GetComponent<AddCardToDeck>();

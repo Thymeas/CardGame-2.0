@@ -58,7 +58,7 @@ public class CraftingScreen : MonoBehaviour {
         }
         // change the look of the card to the card that we selected 
         OneCardManager manager = cardObject.GetComponent<OneCardManager>();
-        manager.cardAsset = cardToShow;
+        manager.CardAsset = cardToShow;
         manager.ReadCardFromAsset();
 
         // change the text on buttons

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 // holds the refs to all the Text, Images on the card
 public class OneCardManager : MonoBehaviour {
 
-    public CardAsset cardAsset;
+    public CardAsset CardAsset;
     public OneCardManager PreviewManager;
     [Header("Text Component References")]
     public Text NameText;
@@ -25,7 +25,7 @@ public class OneCardManager : MonoBehaviour {
 
     void Awake()
     {
-        if (cardAsset != null)
+        if (CardAsset != null)
             ReadCardFromAsset();
     }
 
@@ -47,50 +47,33 @@ public class OneCardManager : MonoBehaviour {
 
     public void ReadCardFromAsset()
     {
-        // universal actions for any Card
-        // 1) apply tint
-        if (cardAsset.CharacterAsset != null)
+        if (CardAsset.CharacterAsset != null)
         {
-            CardBodyImage.color = cardAsset.CharacterAsset.ClassCardTint;
-            CardFaceFrameImage.color = cardAsset.CharacterAsset.ClassCardTint;
-            CardTopRibbonImage.color = cardAsset.CharacterAsset.ClassRibbonsTint;
-            CardLowRibbonImage.color = cardAsset.CharacterAsset.ClassRibbonsTint;
+            CardBodyImage.color = CardAsset.CharacterAsset.ClassCardTint;
+            CardFaceFrameImage.color = CardAsset.CharacterAsset.ClassCardTint;
+            CardTopRibbonImage.color = CardAsset.CharacterAsset.ClassRibbonsTint;
+            CardLowRibbonImage.color = CardAsset.CharacterAsset.ClassRibbonsTint;
         }
         else
-        {
-            //CardBodyImage.color = GlobalSettings.Instance.CardBodyStandardColor;
             CardFaceFrameImage.color = Color.white;
-            //CardTopRibbonImage.color = GlobalSettings.Instance.CardRibbonsStandardColor;
-            //CardLowRibbonImage.color = GlobalSettings.Instance.CardRibbonsStandardColor;
-        }
-        // 2) add card name
-        NameText.text = cardAsset.name;
-        // 3) add mana cost
-        ManaCostText.text = cardAsset.ManaCost.ToString();
-        // 4) add description
-        DescriptionText.text = cardAsset.Description;
-        // 5) Change the card graphic sprite
-        CardGraphicImage.sprite = cardAsset.CardImage;
 
-        if (cardAsset.TypeOfCard == TypesOfCards.Creature)
+        NameText.text = CardAsset.name;
+        ManaCostText.text = CardAsset.ManaCost.ToString();
+        DescriptionText.text = CardAsset.Description;
+        CardGraphicImage.sprite = CardAsset.CardImage;
+
+        if (CardAsset.TypeOfCard == TypesOfCards.Creature)
         {
-            // this is a creature
-            AttackText.text = cardAsset.Attack.ToString();
-            HealthText.text = cardAsset.MaxHealth.ToString();
+            AttackText.text = CardAsset.Attack.ToString();
+            HealthText.text = CardAsset.MaxHealth.ToString();
         }
 
         if (PreviewManager != null)
         {
-            // this is a card and not a preview
-            // Preview GameObject will have OneCardManager as well, but PreviewManager should be null there
-            PreviewManager.cardAsset = cardAsset;
+            PreviewManager.CardAsset = CardAsset;
             PreviewManager.ReadCardFromAsset();
         }
 
-        if (RarityStoneImage == null)
-            Debug.Log("RarityStoneImage is null on object:" + gameObject.name);
-
-        // NEW apply rarity color to a card 
-        RarityStoneImage.color = RarityColors.Instance.ColorsDictionary[cardAsset.Rarity];
+        RarityStoneImage.color = RarityColors.Instance.ColorsDictionary[CardAsset.Rarity];
     }
 }

@@ -1,38 +1,32 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-// this class should work similarly to the mana filter selection (like a radio button)
-// it will handle ALL the tabs, both in deckbuilding and in collectionbrowsing
 public class CharacterSelectionTabs : MonoBehaviour 
 {
     public List<CharacterFilterTab> Tabs = new List<CharacterFilterTab>();
     public CharacterFilterTab ClassTab;
     public CharacterFilterTab NeutralTabWhenCollectionBrowsing;
-    private int currentIndex = 0;
+    private int _currentIndex;
 
     public void SelectTab(CharacterFilterTab tab, bool instant)
     {
         int newIndex = Tabs.IndexOf(tab);
 
-        if (newIndex == currentIndex)
+        if (newIndex == _currentIndex)
             return;
 
-        currentIndex = newIndex;
+        _currentIndex = newIndex;
 
-        // we have selected a new tab
-        // remove highlights from all the other tabs:
         foreach (CharacterFilterTab t in Tabs)
         {
             if (t != tab)
                 t.Deselect(instant);
         }
-        // select the tab that we have picked
+
         tab.Select(instant);
-        // update the cards in the collection
         DeckBuildingScreen.Instance.CollectionBrowserScript.Asset = tab.Asset;
-        DeckBuildingScreen.Instance.CollectionBrowserScript.IncludeAllCharacters = tab.showAllCharacters;
+        DeckBuildingScreen.Instance.CollectionBrowserScript.IncludeAllCharacters = tab.ShowAllCharacters;
     }
 
     public void SetClassOnClassTab(CharacterAsset asset)

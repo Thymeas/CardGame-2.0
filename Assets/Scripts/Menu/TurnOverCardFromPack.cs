@@ -34,7 +34,7 @@ public class TurnOverCardFromPack : MonoBehaviour {
     void OnMouseEnter()
     {
         transform.DOScale(InitialScale*scaleFactor, 0.5f);
-        Glow.DOColor(ShopManager.Instance.OpeningArea.GlowColorsByRarity[manager.cardAsset.Rarity], 0.5f);
+        Glow.DOColor(ShopManager.Instance.OpeningArea.GlowColorsByRarity[manager.CardAsset.Rarity], 0.5f);
     }
 
     void OnMouseExit()
