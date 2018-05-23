@@ -4,9 +4,6 @@ C:/Users/laura/OneDrive/Bureaublad/SecondCardGameCourse/test.exe
 SceneListBegin?
 Assets/MenuScene.unity
 Assets/BattleScene.unity
-Assets/AIScene.unity
-Assets/AIvsAIScene.unity
-Assets/MenuSceneCourse.unity
 SceneListEnd?
 b5d8403a146f3f4b7f5a1cd8358f7e20 Assembly-CSharp.dll:.ScriptToOpenOnePack
 7d0aa0f64a823db9982e4fed92870a4c Assembly-CSharp.dll:UnityEngine.UI.Extensions.ResizePanel
@@ -254,8 +251,10 @@ d63f24e7e506a0314a8cd3b2b9341d82 Assembly-CSharp.dll:UnityEngine.UI.Extensions.U
 52b9b24e7ababecc2087f63fff49caa0 Assembly-CSharp.dll:.DamageEffect
 0b851003bd8d3aa506460e9dad27b449 Assembly-CSharp.dll:UnityEngine.UI.Extensions.ReorderableList
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:TMPro.TMP_DigitValidator
-8f071919b97f523fa93bbf9252389f18 Assembly-CSharp.dll:.CharacterAsset
+86063d387632425e652321713d5e6eee Assembly-CSharp.dll:.CharacterAsset
 d30c26c960d908782ac91fb8e79aeba8 Assembly-CSharp.dll:UnityEngine.UI.Extensions.ScrollSnap
+05524b8f659e7bfe5756d1335fec24ba UnityEngine.Advertisements.dll:UnityEngine.Advertisements.CallbackExecutor
+05524b8f659e7bfe5756d1335fec24ba UnityEngine.Advertisements.dll:UnityEngine.Advertisements.Editor.Placeholder
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:UnityEngine.UI.Extensions.ExampleSelectable
 b379fb1f715229d9d5a41f20e77a174e Assembly-CSharp.dll:.DeckBuildingScreen
 a7797a9fcb61ca2cf790c3ef57d89225 Assembly-CSharp.dll:.HandVisual
@@ -303,7 +302,6 @@ a1ba5dc20e32cd1549eb49181dcce6e7 Assembly-CSharp.dll:.BoxOutline
 d71674106093e6c9d1c540f61fbf7e90 Assembly-CSharp.dll:UnityEngine.UI.Extensions.ColorPicker.ColorSliderImage
 62229a3e4d53ca59bec192e89627ed52 Assembly-CSharp.dll:TMPro.Examples.CameraController
 33be689d08d4179a03c85b712bda5cbe Assembly-CSharp.dll:.DragSpellOnTarget
-05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.RaycastExample
 b29b4b945615cf6e7889a10b57c109e2 Assembly-CSharp.dll:UnityEngine.UI.Extensions.ScrollRectTweener
 95827596d6d8618fd1f1b440a25eafbf Assembly-CSharp.dll:.CurvedLinePoint
 05524b8f659e7bfe5756d1335fec24ba UnityEngine.TestRunner.dll:UnityEngine.TestTools.TestRunner.Callbacks.PlayModeRunnerCallback
@@ -341,17 +339,17 @@ c2275a8bfbb9f9942cad75ecdfded41d UnityEngine.HoloLens.dll:UnityEngine.XR.WSA.Spa
 b0c6d2a843b707983a659d0302bba6ba Assembly-CSharp.dll:UnityEngine.UI.Extensions.CurvedText
 1cd4893b18ef6c9e1612214d23ea08a3 Assembly-CSharp.dll:.ChatController
 6a504210364f040e5026b5f1ebcee24b Assembly-CSharp.dll:.CharacterSelectionScreen
-8d76cad8003d8f11eb8e0a20423e3e37 Assembly-CSharp.dll:.HeroInfoPanel
+a231e517c94e39d2cef4a26f30af97e1 Assembly-CSharp.dll:.HeroInfoPanel
 17a5cccc3a34d76b01bee33f3591cf64 Assembly-CSharp.dll:.PlayerDeckVisual
 4cbcae506ed2e4b803ac23674896027f Assembly-CSharp.dll:UnityEngine.UI.Extensions.AccordionElement
-22257a478bee76c38786bf8ea0277c8b Assembly-CSharp.dll:.CharacterFilterTab
+afe43e10ada4e59752e8bfb4f17969f7 Assembly-CSharp.dll:.CharacterFilterTab
 62a83a8dd4c4db1e0cbace772228ce92 Assembly-CSharp.dll:.CollectionBrowser
 4acd8e25cbbbb4a8851ea29a30702dac Assembly-CSharp.dll:.ManaFilter
 1a36373d2ca2fb58368601d55ad0e6ba Assembly-CSharp.dll:.CharacterSelectionTabs
 95d007753bce2890b797fa0cab2dcfcd Assembly-CSharp.dll:.RopeTimer
 48a9dee325686d1924a2646b71c83f08 Assembly-CSharp.dll:TMPro.Examples.Benchmark01
 9de3a22eca9aefadba2d10d5987cefe3 UnityEngine.SpatialTracking.dll:UnityEngine.SpatialTracking.TrackedPoseDriver
-04f86787bfc1fb9968a1b99fec636812 Assembly-CSharp.dll:.OneCardManager
+8439eba4076fbf6fe7eb03c8ea3e5df1 Assembly-CSharp.dll:.OneCardManager
 79f31fb4ae79b8bfd2948030d07a6e8e Assembly-CSharp.dll:.TurnOverCardFromPack
 f266a453cd4bfbe81533762a3e3589f4 DOTween.dll:DG.Tweening.Core.DOTweenComponent
 0b269eddb7d77b913f99ea770bf1912a DOTween.dll:DG.Tweening.Core.DOTweenSettings
@@ -399,5 +397,3 @@ d0434a7cefad4aaf1892839fc0d97c2b Assembly-CSharp.dll:UnityEngine.UI.Extensions.S
 3fd3930ba0499bfc7c7288966179c9ad Assembly-CSharp.dll:.PortraitMenu
 34e025057ef78b1bf238460cdf6583a3 Assembly-CSharp.dll:TMPro.Examples.ObjectSpin
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:TMPro.Examples.SimpleScript
-05524b8f659e7bfe5756d1335fec24ba UnityEngine.Advertisements.dll:UnityEngine.Advertisements.CallbackExecutor
-05524b8f659e7bfe5756d1335fec24ba UnityEngine.Advertisements.dll:UnityEngine.Advertisements.Editor.Placeholder

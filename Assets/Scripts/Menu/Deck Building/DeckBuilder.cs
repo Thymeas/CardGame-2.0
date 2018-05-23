@@ -14,8 +14,8 @@ public class DeckBuilder : MonoBehaviour
 
     public GameObject DeckCompleteFrame;
 
-    private List<CardAsset> _deckList = new List<CardAsset>();
-    private Dictionary<CardAsset, CardNameRibbon> _ribbons = new Dictionary<CardAsset, CardNameRibbon>();
+    private readonly List<CardAsset> _deckList = new List<CardAsset>();
+    private readonly Dictionary<CardAsset, CardNameRibbon> _ribbons = new Dictionary<CardAsset, CardNameRibbon>();
 
     public bool InDeckBuildingMode{ get; set;}
     private CharacterAsset _buildingForCharacter;
