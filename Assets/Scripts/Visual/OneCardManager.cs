@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
+using System.Collections;
 using UnityEngine.UI;
 
+// holds the refs to all the Text, Images on the card
 public class OneCardManager : MonoBehaviour {
 
     public CardAsset CardAsset;
@@ -27,17 +29,17 @@ public class OneCardManager : MonoBehaviour {
             ReadCardFromAsset();
     }
 
-    private bool _canBePlayedNow;
+    private bool canBePlayedNow = false;
     public bool CanBePlayedNow
     {
         get
         {
-            return _canBePlayedNow;
+            return canBePlayedNow;
         }
 
         set
         {
-            _canBePlayedNow = value;
+            canBePlayedNow = value;
 
             CardFaceGlowImage.enabled = value;
         }
