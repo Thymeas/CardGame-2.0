@@ -66,12 +66,12 @@ public class ShopManager : MonoBehaviour {
             _money += 100;
     }
 
-    public void BuyPack()
+    public void BuyPack(int _amountOfPacks)
     {
         if (_money >= PackPrice)
         {
             Money -= PackPrice;
-            StartCoroutine(GivePacks(1));
+            StartCoroutine(GivePacks(_amountOfPacks));
         }
     }
 
