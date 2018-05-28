@@ -1,6 +1,6 @@
 WindowsStandalone
 PlayerPath?
-C:/Users/laura/OneDrive/Documenten/GitHub/CardGame/test_2.0.exe
+C:/Users/laura/OneDrive/Documenten/GitHub/CardGame/test_3.0.exe
 SceneListBegin?
 Assets/MenuScene.unity
 Assets/BattleScene.unity
