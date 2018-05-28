@@ -1,6 +1,6 @@
 WindowsStandalone
 PlayerPath?
-C:/Users/laura/OneDrive/Documenten/GitHub/CardGame/test_1.0.exe
+C:/Users/laura/OneDrive/Documenten/GitHub/CardGame/test_2.0.exe
 SceneListBegin?
 Assets/MenuScene.unity
 Assets/BattleScene.unity
@@ -124,7 +124,7 @@ d21ac94dcf56e9e9b58ab288c2798a6a Assembly-CSharp.dll:.CraftingScreen
 16a109751083cb1343b5d8153cd1cad9 Assembly-CSharp.dll:UnityEngine.UI.ReturnKeyTriggersButton
 f959740f5a3a15c4d45cb2d4e1e5e116 Assembly-CSharp.dll:.testHref
 d94bd44e8535114017104c60ed8f6c3d Assembly-CSharp.dll:.AddCardToDeck
-ebbd0285d3bdcefbd0251472b849948d Assembly-CSharp.dll:.ShopManager
+a1abfae4b9383e215d9cecaa6bd0b846 Assembly-CSharp.dll:.ShopManager
 27b1fe840698fd3bc4177ef7d5a7bfc5 Assembly-CSharp.dll:.MessageManager
 195716a4bff9dc3a9ec9ae38fe7bcd5b Assembly-CSharp.dll:.HoverPreview
 31b716e617aad1e2eb6c687b07992512 Assembly-CSharp.dll:UnityEngine.EventSystems.Extensions.AimerInputModule

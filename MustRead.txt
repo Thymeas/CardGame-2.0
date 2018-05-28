@@ -1,0 +1,8 @@
+In deze folder zitten de unity exe (test) die je moet openen om het te kunnen testen en in dit document staat een link naar de vragenlijst.
+Lees eerst de introductie in de vragenlijst en daarna kun je het testen.
+Na het testen maak je de vragenlijst. 
+
+
+Hieronder is een link naar de vragenlijst.
+
+https://docs.google.com/forms/d/e/1FAIpQLSc9OmWGm0pHp7uYWoyDpv1JBdJmNgwQmcJAuU4ZVyvo6LC3Dg/viewform

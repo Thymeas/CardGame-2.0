@@ -7,7 +7,7 @@ public class ShopManager : MonoBehaviour {
 
     public GameObject ScreenContent;
     public GameObject PackPrefab;
-    public int PackPrice;
+    public int[] PackPrice;
     public Transform PacksParent;
     public Transform InitialPackSpot;
     public float PosXRange = 4f;
@@ -62,15 +62,30 @@ public class ShopManager : MonoBehaviour {
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKeyDown(KeyCode.M))
             _money += 100;
+        MoneyText.text = _money.ToString();
     }
 
-    public void BuyPack(int _amountOfPacks)
+    private int _amountOfPacks;
+    public void BuyPack(int _index)
     {
-        if (_money >= PackPrice)
+        switch (_index)
         {
-            Money -= PackPrice;
+            case 0:
+                _amountOfPacks = 1;
+                break;
+            case 1:
+                _amountOfPacks = 5;
+                break;
+            case 2:
+                _amountOfPacks = 10;
+                break;
+        }
+
+        if (_money >= PackPrice[_index])
+        {
+            Money -= PackPrice[_index];
             StartCoroutine(GivePacks(_amountOfPacks));
         }
     }
